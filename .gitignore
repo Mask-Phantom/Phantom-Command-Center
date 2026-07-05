@@ -1,19 +1,21 @@
-# Binary and Large files
-*.zip
-*.tar.gz
-*.apk
-*.exe
-*.bin
+# Sensitive Harvest Data & Scans
+*.json
+*.xml
+*.txt
+*.state
 
-# OS/System files
-.DS_Store
-.thumbs
-
-# Python junk
-__pycache__/
-*.pyc
-
-# Logs and local environment
+# Logs and Temp
 logs/
+temp/
 *.log
-.env
+*.bak
+
+# Binaries and Backdoors (Unless you are distributing them)
+APKS/
+backdoor_apk/
+thefatrat-setup.zip
+*.deb
+
+# Backup files
+*.backup
+*.prepatch.bak
