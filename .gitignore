@@ -1,0 +1,19 @@
+# Binary and Large files
+*.zip
+*.tar.gz
+*.apk
+*.exe
+*.bin
+
+# OS/System files
+.DS_Store
+.thumbs
+
+# Python junk
+__pycache__/
+*.pyc
+
+# Logs and local environment
+logs/
+*.log
+.env

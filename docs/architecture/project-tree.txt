@@ -1,0 +1,99 @@
+.
+├── APKS
+│   ├── armeabi-v7a
+│   └── x86
+├── autorun
+│   ├── app4
+│   ├── autorun.ico
+│   ├── autorun.inf
+│   └── README.md
+├── backdoor_apk
+├── CHANGELOG.md
+├── chk_tools
+├── compat
+│   ├── common.sh
+│   ├── dependencies.sh
+│   ├── environment.sh
+│   └── report.sh
+├── config
+│   ├── listeners
+│   ├── readme.md
+│   └── TheFatRat.desktop
+├── CONTRIBUTING.md
+├── core
+├── docs
+│   └── architecture
+├── fatrat
+├── grab.sh
+├── icons
+│   ├── access.ico
+│   ├── autorun.ico
+│   ├── excel.ico
+│   ├── icon.res
+│   ├── lync.ico
+│   ├── pdf.ico
+│   ├── powerpoint.ico
+│   ├── project.ico
+│   ├── publisher.ico
+│   ├── README.md
+│   ├── TheFatRat.ico
+│   ├── visio.ico
+│   ├── vlc.ico
+│   └── word.ico
+├── installer
+├── ISSUES.md
+├── java
+│   └── classes
+├── LICENSE
+├── lists
+│   ├── namelist.txt
+│   └── tldlist.txt
+├── logs
+│   ├── aptdebug.log
+│   ├── apt.log
+│   ├── check
+│   ├── install.log
+│   ├── readme.md
+│   └── setup.log
+├── PE
+│   ├── original.pdf
+│   └── putty.exe
+├── postexploit
+│   ├── auto_migrate+killfirewall.rc
+│   ├── cred_dump.rc
+│   ├── fast_migrate.rc
+│   ├── gather.rc
+│   ├── README.md
+│   └── sysinfo.rc
+├── powerfull.sh
+├── prog.c.backup
+├── README.md
+├── release
+├── ROADMAP.md
+├── scripts
+├── setup.sh
+├── setup.sh.bak
+├── setup.sh.prepatch.bak
+├── temp
+│   └── readme.md
+├── tests
+├── thefatrat-setup.zip
+├── tools
+│   ├── android-sdk
+│   ├── android-string-obfuscator
+│   ├── apache.c
+│   ├── apkembed.rb
+│   ├── apktool
+│   ├── baksmali233
+│   ├── dad.c
+│   ├── pkgs
+│   ├── power.py
+│   ├── prog.cs
+│   ├── pump.py
+│   ├── pw_exec.py
+│   ├── trodebi_temp
+│   └── trusted_2_6.py
+├── troubleshoot.md
+└── update
+
+28 directories, 69 files

@@ -1,0 +1,685 @@
+function cont() {
+# Source Android tools compatibility module
+source "compat/android.sh"
+
+stp="logs/check"
+#remove any previous check file from previous attempts
+rm -rf "$stp" >/dev/null 2>&1
+#starting setup , input 1 value to check file
+echo "1" > "$stp"
+#remove any previous install.log file from previous attempts
+rm -rf "$inst" >/dev/null 2>&1
+
+#check if xterm is installed
+which xterm > /dev/null 2>&1
+if [ "$?" -eq "0" ]; then
+echo -e "$green" "[ ✔ ] Xterm.............................[ found ]"
+which xterm >> "$log" 2>&1
+echo "xterm -> OK" > "$inst"
+else
+echo ""
+echo -e "$red" "[ X ] Xterm -> not found! "
+echo -e "$yellow" "[ ! ] Installing Xterm                     "
+echo -e "$green" ""
+sudo apt-get install xterm -y
+which xterm >> "$log" 2>&1
+if [ "$?" -eq "0" ]; then
+echo -e "$green" "[ ✔ ] Xterm -> OK"
+echo "Xterm -> OK" > "$inst"
+else
+echo -e "$red" "[ x ] Xterm"
+echo "0" > "$stp"
+echo "xterm -> Not OK" > "$inst"
+fi
+fi
+mingwchk
+sleep 1
+#check if dig its installed
+which dig > /dev/null 2>&1
+if [ "$?" -eq "0" ]; then
+echo -e "$green" "[ ✔ ] Dns-Utils ........................[ found ]"
+which dig >> "$log" 2>&1
+echo "Dns-Utils -> OK" >> "$inst"
+else
+echo -e "$red" "[ X ] dnsutils -> not found! "
+echo -e "$yellow" "[ ! ]  Installing dnsutils"
+xterm -T "☣ INSTALL DNSUTILS ☣" -geometry 100x30 -e "sudo apt-get install dnsutils -y"
+which dig >> "$log" 2>&1
+if [ "$?" -eq "0" ]; then
+echo -e "$green" "[ ✔ ] Dns-Utils -> OK"
+echo "Dns-Utils -> OK" >> "$inst"
+else
+echo -e "$red" "[ x ] Dns-Utils"
+echo "0" > "$stp"
+echo "dns-utils -> Not OK" >> "$inst"
+fi
+fi
+sleep 1
+
+#check if mono mcs its installed
+# Mono mcs and devel required to compile program.cs in pwnwinds
+which mcs > /dev/null 2>&1
+if [ "$?" -eq "0" ]; then
+echo -e "$green" "[ ✔ ] Mono-Denvelop Utils ..............[ found ]"
+which mcs >> "$log" 2>&1
+echo "Mono-Denvelop Utils -> OK" >> "$inst"
+else
+echo -e "$red" "[ X ] Mono-Denvelop Utils -> not found! "
+echo -e "$yellow" "[ ! ]  Installing Mono-Denvelop Utils"
+xterm -T "☣ INSTALL MONODENVELOP-UTILS ☣" -geometry 100x30 -e "sudo apt-get install mono-mcs mono-devel -y"
+which mcs >> "$log" 2>&1
+if [ "$?" -eq "0" ]; then
+echo -e "$green" "[ ✔ ] Mono-Denvelop Utils -> OK"
+echo "Mono-Denvelop Utils -> OK" >> "$inst"
+else
+echo -e "$red" "[ x ] Mono-Denvelop Utils"
+echo "0" > "$stp"
+echo "Mono-Denvelop Utils -> OK" >> "$inst"
+fi
+fi
+sleep 1
+
+# check if gcc exists
+which gcc > /dev/null 2>&1
+if [ "$?" -eq "0" ]; then
+echo -e "$green" "[ ✔ ] Gcc compiler......................[ found ]"
+which gcc >> "$log" 2>&1
+echo "GCC -> OK" >> "$inst"
+else
+echo -e "$red" "[ X ] gcc compiler      -> not found "
+echo -e "$yellow" "[ ! ]   Installing gcc "
+xterm -T "☣ INSTALL GCC COMPILLER ☣" -geometry 100x30 -e "sudo apt-get install gcc -y"
+which gcc >> "$log" 2>&1
+if [ "$?" -eq "0" ]; then
+echo -e "$green" "[ ✔ ] GCC -> OK"
+echo "GCC -> OK" >> "$inst"
+else
+echo -e "$red" "[ x ] GCC"
+echo "0" > "$stp"
+echo "gcc -> Not OK" >> "$inst"
+fi
+fi
+sleep 1
+#check if apache2 exists
+which apache2 > /dev/null 2>&1
+if [ "$?" -eq "0" ]; then
+echo -e "$green" "[ ✔ ] Apache2 ..........................[ found ]"
+which apache2 >> "$log" 2>&1
+echo "Apache2 -> OK" >> "$inst"
+else
+echo -e "$red" "[ X ] Apache2 -> not found  "
+echo -e "$yellow" "[ ! ]    Installing apache2 "
+xterm -T "☣ INSTALL APACHE2 ☣" -geometry 100x30 -e "sudo apt-get install apache2 -y"
+which apache2 >> "$log" 2>&1
+if [ "$?" -eq "0" ]; then
+echo -e "$green" "[ ✔ ] Apache2 -> OK"
+echo "Apache2 -> OK" >> "$inst"
+else
+echo -e "$red" "[ x ] Apache2"
+echo "0" > "$stp"
+echo "apache2 -> Not OK" >> "$inst"
+fi
+fi
+sleep 1
+#check if gnome terminal exists
+#added this new install option because user may be running a distro that may not have gnome terminal installed by default
+#gnome terminal is used in main script to run searchsploit
+which gnome-terminal > /dev/null 2>&1
+if [ "$?" -eq "0" ]; then
+echo -e "$green" "[ ✔ ] Gnome Terminal....................[ found ]"
+which gnome-terminal >> "$log" 2>&1
+echo "Gnome Terminal -> OK" >> "$inst"
+else
+echo -e "$red" "[ X ] Gnome-terminal-> not found "
+echo -e "$yellow" "[ ! ] Installing gnome-terminal "
+xterm -T "☣ INSTALL GNOME-TERMINAL ☣" -geometry 100x30 -e "sudo apt-get install gnome-terminal -y"
+which gnome-terminal >> "$log" 2>&1
+if [ "$?" -eq "0" ]; then
+echo -e "$green" "[ ✔ ] Gnome Terminal -> OK"
+echo "Gnome Terminal -> OK" >> "$inst"
+else
+echo -e "$red" "[ x ] Gnome Terminal"
+echo "0" > "$stp"
+echo "gnome-terminal -> Not OK" >> "$inst"
+fi
+fi
+
+#Checking if upx compressor exists
+sleep 1
+which upx > /dev/null 2>&1
+if [ "$?" -eq "0" ]; then
+echo -e "$green" "[ ✔ ] UPX Compressor....................[ found ]"
+which upx >> "$log" 2>&1
+echo "UPX -> OK" >> "$inst"
+else
+echo -e "$red" "[ X ] Upx compressor  -> not found "
+echo -e "$yellow" "[ ! ] Installing upx-compressor "
+xterm -T "☣ INSTALL UPX COMPRESSOR ☣" -geometry 100x30 -e "sudo apt-get install upx-ucl -y"
+which upx >> "$log" 2>&1
+if [ "$?" -eq "0" ]; then
+echo -e "$green" "[ ✔ ] UPX Compressor -> OK"
+echo "UPX -> OK" >> "$inst"
+else
+echo -e "$red" "[ x ] UPX Compressor"
+echo "0" > "$stp"
+echo "upx-ucl -> Not OK" >> "$inst"
+fi
+fi
+sleep 1
+#Checking if Ruby exists
+which ruby > /dev/null 2>&1
+if [ "$?" -eq "0" ]; then
+echo -e "$green" "[ ✔ ] Ruby..............................[ found ]"
+which ruby >> "$log" 2>&1
+echo "Ruby -> OK" >> "$inst"
+else
+echo -e "$red" "[ X ] Ruby  -> not found "
+echo -e "$yellow" "[ ! ] Installing Ruby "
+xterm -T "☣ INSTALL Ruby ☣" -geometry 100x30 -e "sudo apt-get install ruby -y && gem install nokogiri"
+which ruby >> "$log" 2>&1
+if [ "$?" -eq "0" ]; then
+echo -e "$green" "[ ✔ ] Ruby -> OK"
+echo "Ruby -> OK" >> "$inst"
+else
+echo -e "$red" "[ x ] Ruby"
+echo "0" > "$stp"
+echo "ruby -> Not OK" >> "$inst"
+fi
+fi
+sleep 1
+#Checking if python2 exists
+which python2 > /dev/null 2>&1
+if [ "$?" -eq "0" ]; then
+echo -e "$green" "[ ✔ ] Python2...........................[ found ]"
+which python2 >> "$log" 2>&1
+echo "Python2 -> OK" >> "$inst"
+else
+echo -e "$red" "[ X ] Python2  -> not found "
+echo -e "$yellow" "[ ! ] Installing Python2 "
+xterm -T "☣ INSTALL Python2 ☣" -geometry 100x30 -e "sudo apt install python2-minimal -y"
+which python2 >> "$log" 2>&1
+if [ "$?" -eq "0" ]; then
+echo -e "$green" "[ ✔ ] Python2 -> OK"
+echo "Python2 -> OK" >> "$inst"
+else
+echo -e "$red" "[ x ] Python2"
+echo "0" > "$stp"
+echo "Python2 -> Not OK" >> "$inst"
+fi
+fi
+
+sleep 1
+#Checking if python3 exists
+which python3 > /dev/null 2>&1
+if [ "$?" -eq "0" ]; then
+echo -e "$green" "[ ✔ ] Python3...........................[ found ]"
+which python3 >> "$log" 2>&1
+echo "Python3 -> OK" >> "$inst"
+else
+echo -e "$red" "[ X ] Python3  -> not found "
+echo -e "$yellow" "[ ! ] Installing Python3 "
+xterm -T "☣ INSTALL Python3 ☣" -geometry 100x30 -e "sudo apt-get install python3 -y"
+which python3 >> "$log" 2>&1
+if [ "$?" -eq "0" ]; then
+echo -e "$green" "[ ✔ ] Python3 -> OK"
+echo "Python3 -> OK" >> "$inst"
+else
+echo -e "$red" "[ x ] Python3"
+echo "0" > "$stp"
+echo "Python3 -> Not OK" >> "$inst"
+fi
+fi
+sleep 1
+#Checking if python3-pip exists
+which pip3 > /dev/null 2>&1
+if [ "$?" -eq "0" ]; then
+echo -e "$green" "[ ✔ ] Python3-Pip.......................[ found ]"
+xterm -T "☣ INSTALL Python3 module names ☣" -geometry 100x30 -e "sudo pip3 install names -y"
+which pip3 >> "$log" 2>&1
+echo "Python3-pip -> OK" >> "$inst"
+else
+echo -e "$red" "[ X ] Python3-pip  -> not found "
+echo -e "$yellow" "[ ! ] Installing Python3-pip "
+xterm -T "☣ INSTALL Python3-pip ☣" -geometry 100x30 -e "sudo apt-get install python3-pip -y && pip3 install names"
+which pip3 >> "$log" 2>&1
+if [ "$?" -eq "0" ]; then
+echo -e "$green" "[ ✔ ] Python3-Pip -> OK"
+echo "Python3-Pip -> OK" >> "$inst"
+else
+echo -e "$red" "[ x ] Python3-Pip"
+echo "0" > "$stp"
+echo "Python3-Pip -> Not OK" >> "$inst"
+fi
+fi
+sleep 1
+#Checking if Openssl exists
+which openssl > /dev/null 2>&1
+if [ "$?" -eq "0" ]; then
+echo -e "$green" "[ ✔ ] Openssl...........................[ found ]"
+which openssl >> "$log" 2>&1
+echo "Openssl -> OK" >> "$inst"
+else
+echo -e "$red" "[ X ] Openssl  -> not found "
+echo -e "$yellow" "[ ! ] Installing Openssl "
+xterm -T "☣ INSTALL OPENSSL ☣" -geometry 100x30 -e "sudo apt-get install openssl -y"
+which openssl >> "$log" 2>&1
+if [ "$?" -eq "0" ]; then
+echo -e "$green" "[ ✔ ] Openssl -> OK"
+echo "Openssl -> OK" >> "$inst"
+else
+echo -e "$red" "[ x ] Openssl"
+echo "0" > "$stp"
+echo "openssl -> Not OK" >> "$inst"
+fi
+fi
+sleep 1
+#installing dependencies for ruby script 
+echo -e "$green" "[ ! ] Installing tools dependencies"
+xterm -T "☣ INSTALL DEPENDENCIES ☣" -geometry 100x30 -e "sudo apt-get install lib32z1 lib32ncurses5 lib32stdc++6 build-essential -y"
+sleep 1
+
+#Checking if Jarsigner exists
+which jarsigner > /dev/null 2>&1
+if [ "$?" -eq "0" ]; then
+echo -e "$green" "[ ✔ ] Jarsigner from java...............[ found ]"
+which jarsigner >> "$log" 2>&1
+echo "Jarsigner -> OK" >> "$inst"
+rm -f "$config"
+#Creating new config file 
+touch "$config"
+echo "********************************************************************************************************" >> "$config"
+echo "** Configuration Paths for TheFatRat , do not delete anything from this file or program will not work **" >> "$config"
+echo "**       if you need to reconfig your tools path , then run ./setup.sh in (TheFatRat directory) .     **" >> "$config"
+echo "********************************************************************************************************" >> "$config"
+echo "jarsigner" | tee -a "$config" >> /dev/null 2>&1
+else
+echo -e "$red" "[ X ] Jarsigner from java -> not found "
+echo -e "$yellow" "[ ! ] Installing Java "
+xterm -T "☣ INSTALL default-jdk ☣" -geometry 100x30 -e "sudo apt-get install default-jdk default-jre  -y | tee -a $mingw"
+which jarsigner > /dev/null 2>&1
+if [ "$?" -eq "0" ]; then
+echo -e "$green" "[ ✔ ] Jarsigner -> OK"
+which jarsigner >> "$log" 2>&1
+echo "Jarsigner -> OK" >> "$inst"
+rm -f "$config"
+#Creating new config file 
+touch "$config"
+echo "********************************************************************************************************" >> "$config"
+echo "** Configuration Paths for TheFatRat , do not delete anything from this file or program will not work **" >> "$config"
+echo "**       if you need to reconfig your tools path , then run ./setup.sh in (TheFatRat directory) .     **" >> "$config"
+echo "********************************************************************************************************" >> "$config"
+echo "jarsigner" | tee -a "$config" >> /dev/null 2>&1
+else
+echo -e "$red" "[ x ] Jarsigner"
+echo "0" > "$stp"
+echo "jarsigner from default-jdk-> OK" >> "$inst"
+fi
+fi
+sleep 1
+
+#Checking if Unzip exists
+which unzip > /dev/null 2>&1
+if [ "$?" -eq "0" ]; then
+echo -e "$green" "[ ✔ ] Unzip.............................[ found ]"
+which unzip >> "$log" 2>&1
+echo "unzip" | tee -a "$config" >> /dev/null 2>&1
+echo "Unzip -> OK" >> "$inst"
+else
+echo -e "$red" "[ X ] Unzip -> not found "
+echo -e "$yellow" "[ ! ] Installing Unzip "
+xterm -T "☣ INSTALL UNZIP ☣" -geometry 100x30 -e "sudo apt-get install unzip  -y "
+which unzip >> "$log" 2>&1
+if [ "$?" -eq "0" ]; then
+echo "unzip" | tee -a "$config" >> /dev/null 2>&1
+echo -e "$green" "[ ✔ ] Unzip -> OK"
+echo "Unzip -> OK" >> "$inst"
+else
+echo -e "$red" "[ x ] Unzip"
+echo "0" > "$stp"
+echo "unzip -> Not OK" >> "$inst"
+fi
+fi
+
+sleep 1
+#Checking if keytool exists
+which keytool > /dev/null 2>&1
+if [ "$?" -eq "0" ]; then
+echo -e "$green" "[ ✔ ] Keytool from java.................[ found ]"
+which keytool >> "$log" 2>&1
+echo "keytool" | tee -a "$config" >> /dev/null 2>&1
+echo "Keytool -> OK" >> "$inst"
+else
+echo -e "$red" "[ X ] Keytool from java -> not found  "
+echo -e "$yellow" "[ ! ] Installing Java "
+xterm -T "☣ INSTALL JAVA ☣" -geometry 100x30 -e "sudo apt-get install default-jdk default-jre -y | tee -a $mingw"
+which keytool >> "$log" 2>&1
+if [ "$?" -eq "0" ]; then
+echo "keytool" | tee -a "$config" >> /dev/null 2>&1
+echo -e "$green" "[ ✔ ] Keytool -> OK"
+echo "Keytool -> OK" >> "$inst"
+else 
+echo -e "$red" "[ x ] Keytool"
+echo "0" > "$stp"
+echo "keytool -> Not OK" >> "$inst"
+fi
+fi
+
+sleep 1
+
+#Adding zipalign path to config
+which zipalign > /dev/null 2>&1
+if [ "$?" -eq "0" ]; then
+echo -e "$green" "[ ✔ ] Zipalign..........................[ found ]"
+which zipalign >> "$log" 2>&1
+echo "Zipalign -> OK" >> "$inst"
+echo "$path/tools/android-sdk/zipalign" | tee -a "$config" >> /dev/null 2>&1
+else
+ln -s "$path/tools/android-sdk/zipalign" "/usr/local/sbin/zipalign" > /dev/null 2>&1
+which zipalign > /dev/null 2>&1
+if [ "$?" -eq "0" ]; then
+echo -e "$green" "[ ✔ ] Zipalign..........................[ found ]"
+which zipalign >> "$log" 2>&1
+echo "$path/tools/android-sdk/zipalign" | tee -a "$config" >> /dev/null 2>&1
+else
+echo "0" > "$stp"
+echo "Zipalign -> Not OK" >> "$inst"
+fi
+fi
+sleep 1
+
+#################################
+#inputrepo
+#################################
+
+cp /etc/apt/sources.list /etc/apt/sources.list.backup # backup
+# Second backup created in case user stops the script after this point , then on next startup this script will
+# copy the already changed sources file before as backup , and user lost his original sources lists
+file="/etc/apt/sources.list.fatrat"
+if [ ! -f "$file" ]
+then
+cp /etc/apt/sources.list /etc/apt/sources.list.fatrat
+fi
+rm -f /etc/apt/sources.list
+touch /etc/apt/sources.list
+echo "deb http://deb.debian.org/debian/ jessie main contrib non-free" > /etc/apt/sources.list
+repokey
+xterm -T "☣ UPDATING REPOSITORIES DEDIAN JESSIE☣" -geometry 100x30 -e "sudo apt-get clean && sudo apt-get clean cache && sudo apt-get update -y | tee -a $mingw"
+sleep 1
+
+# check if mingw32 or mingw-64 exists 
+# Case not exists then reedirect to mingw instalation depending on arch
+
+which x86_64-w64-mingw32-gcc >> /dev/null 2>&1
+if [ "$?" -eq "0" ]; then
+echo -e "$green" "[ ✔ ] Mingw-w64 Compiler................[ found ]"
+which x86_64-w64-mingw32-gcc >> "$log" 2>&1
+echo "Mingw64 -> OK" >> "$inst"
+else
+echo -e "$red" "[ X ] Mingw-w64 -> not found "
+#Powerstager requires mingw64 to work , mingw32 is required because powerfull.sh requires it for 32bit fud exe compiling
+# In case mingw64 not found then remove any previously mingw32 & 64 bit faulty instalations and install mingw64 
+
+xterm -T "☣ INSTALL MINGW64 COMPILLER ☣" -geometry 100x30 -e "sudo apt-get install mingw32 mingw-w64 -y | tee -a $mingw"
+which x86_64-w64-mingw32-gcc > /dev/null 2>&1
+if [ "$?" -eq "0" ]; then
+echo -e "$green" "[ ✔ ] Mingw-64 Compiler.................[ found ]"
+which x86_64-w64-mingw32-gcc >> "$log" 2>&1
+echo "Mingw64 -> OK" >> "$inst"
+else
+echo "0" > "$stp"
+echo "mingw-w64 -> Not OK" >> "$inst"
+fi
+fi
+
+# check if ming32  
+# Case not exists then reedirect to mingw instalation depending on arch
+
+which i686-w64-mingw32-gcc >> /dev/null 2>&1
+if [ "$?" -eq "0" ]; then
+echo -e "$green" "[ ✔ ] Mingw-32 Compiler.................[ found ]"
+which i686-w64-mingw32-gcc >> "$log" 2>&1
+echo "Mingw32 -> OK" >> "$inst"
+else
+echo -e "$red" "[ X ] Mingw-32 -> not found "
+#Powerstager requires mingw64 to work , mingw32 is required because powerfull.sh requires it for 32bit fud exe compiling
+# In case mingw64 not found then remove any previously mingw32 & 64 bit faulty instalations and install mingw64 
+
+xterm -T "☣ INSTALL MINGW32 COMPILLER ☣" -geometry 100x30 -e "sudo apt-get install mingw32 mingw-w64 -y | tee -a $mingw"
+which i686-w64-mingw32-gcc > /dev/null 2>&1
+if [ "$?" -eq "0" ]; then
+echo -e "$green" "[ ✔ ] Mingw-32 Compiler..................[ found ]"
+which i686-w64-mingw32-gcc >> "$log" 2>&1
+echo "Mingw32 -> OK" >> "$inst"
+else
+echo "0" > "$stp"
+echo "mingw-32 -> Not OK" >> "$inst"
+fi
+fi
+
+#================================================================================
+# PHASE 2: ANDROID TOOLS SETUP
+# Refactored and consolidated from individual inline checks
+#================================================================================
+
+# Source Android compatibility functions
+source "$(dirname "$0")/compat/android.sh"
+
+# Setup DX 1.16
+setup_dx "$path" "$log" "$config" "$inst" "$stp" "$green" "$red"
+sleep 1
+
+# Setup AAPT v0.2-6625208
+setup_aapt "$path" "$log" "$config" "$inst" "$stp" "$green" "$red"
+sleep 1
+
+# Setup Apktool v2.6.0
+setup_apktool "$path" "$log" "$config" "$inst" "$stp" "$green" "$red"
+sleep 1
+
+# Setup Baksmali v2.3.3
+setup_baksmali "$path" "$log" "$config" "$inst" "$stp" "$green" "$red"
+
+touch /etc/apt/sources.list
+echo "deb https://http.kali.org/kali kali-rolling main non-free contrib" > /etc/apt/sources.list
+repokey
+xterm -T "☣ UPDATING KALI REPOSITORIES ☣" -geometry 100x30 -e "sudo apt-get clean && sudo apt-get clean cache && sudo apt-get update"
+sleep 1
+mtspl
+################################
+# rebackyo repo
+################################
+echo -e "$blue" "Reactivating your original repositories"
+rm -f /etc/apt/sources.list
+mv /etc/apt/sources.list.backup /etc/apt/sources.list
+#now we can remove the emergency backup securely
+rm -f /etc/apt/sources.list.fatrat
+apt-get clean
+xterm -T "☣ UPDATE YOUR REPO ☣" -geometry 100x30 -e "sudo apt-get update "
+clear
+crtdir
+echo -e "$green" "Do you want to create a shortcut for fatrat in your system"
+echo -e "$green" "so you can run fatrat from anywhere in your terminal and desktop ?"
+echo ""
+echo -ne "$cyan" "Choose y/n : "
+read -r cho
+case "$cho" in
+
+y|Y|Yes|yes|YES)
+lnk=$?
+if [ "$lnk" ==  "0" ];then
+dir=`pwd` 
+scrp="cd $dir && ./fatrat"
+rm -f /usr/local/sbin/fatrat
+touch /usr/local/sbin/fatrat
+echo "#!/bin/bash" > /usr/local/sbin/fatrat
+echo "$scrp" >> /usr/local/sbin/fatrat
+cp "$path/config/TheFatRat.desktop" /usr/share/applications/TheFatRat.desktop
+cp "$path/icons/TheFatRat.ico" /usr/share/icons/TheFatRat.ico
+chmod +x /usr/local/sbin/fatrat
+chmod +x fatrat
+which fatrat >> "$log" 2>&1
+clear
+echo ""
+echo -e "$green" "Instalation completed , To execute fatrat write anywhere in your terminal fatrat"
+fi
+;;
+
+n|no|No|NO)
+chmod +x fatrat
+clear
+echo ""
+echo -e "$green" "Instalation completed , To execute fatrat write in fatrat directory ./fatrat"
+;;
+
+*)
+chmod +x fatrat
+clear
+echo ""
+echo -e "$green" "Instalation completed , To execute fatrat write in fatrat directory ./fatrat"
+;;
+esac
+exit 
+
+}  
+#Case ping goggle hostname fails , the this function will load to check what is happening 
+function chknet() {
+echo -e "$red" "[X] Your Internet is not working correctly!"
+sleep 1
+echo -e "$cyan" "[*] Checking ...."
+#ping hostname failed , so now will test ping google ip dns server
+ping -c 1 8.8.4.4 > /dev/null 2>&1
+png="$?" 
+ if [ "$png" == "0" ]
+then
+#Ping dns server worked , inform user what happened and proceed with setup
+    echo -e "$red" "[X] Your linux OS is not able to resolve"
+    echo -e "$red" "hostnames over terminal using ping !!"
+    echo ""
+    echo -e "$yellow" "Search on the web : unable to resolve hostnames ping to find a solution"
+echo ""
+echo -e "$green" "Setup will continue , but is not garantee that apt package management
+may work properly , or even if it can resolve hostnames ."
+echo ""
+echo -e "$cyan" "Setup will continue because :"
+echo -e "$green" "Ping google.com =$red Failed"
+echo -e "$green" "Ping google DNS = Success"
+echo ""
+echo -e "$green" "Press [ENTER] key to continue"
+read continue
+cont
+    sleep 1
+elif [ "$png" == "1" ]
+then
+#user is only connected to lan and not to the web , abort setup
+    echo -e "$yellow" "You are connected to your local network but not to the web ."
+    echo -e "$yellow" "Check if your router/modem gateway is connected to the web ."
+echo ""
+echo -e "$green" "Setup will not continue , you are only connected to your local lan."
+echo ""
+echo -e "$cyan" "Setup will stop because :"
+echo -e "$green" "Ping google.com =$red Failed"
+echo -e "$green" "Ping google DNS =$red Failed"
+echo ""
+echo -e "$green" "Press [ENTER] key to continue"
+read -r continue
+exit 1
+sleep 1
+elif [ "$png" == "2" ]
+then
+# user is not connected to anywhere , web or lan , abort setup
+echo -e "$red" "You are not connected to any network ."
+echo ""
+echo -e "$cyan" "Setup will stop because :"
+echo -e "$green" "Ping google.com =$red Failed"
+echo -e "$green" "Ping google DNS =$red Failed"
+echo ""
+echo -e "$green" "Press [ENTER] key to continue"
+read -r continue
+exit 1
+    sleep 1
+fi
+}
+chkpkg () {
+pkgi="$path/tools/pkgs"	
+if [[ ! -f	"$pkgi" ]]
+then
+wget https://raw.githubusercontent.com/Screetsec/TheFatRat/master/tools/pkgs -O "$pkgi" >/dev/null 2>&1
+if [[ ! -f	"$pkgi" ]]
+then
+echo ""
+echo -e "$red""Somehow your fatrat is not in the latest release , and we were "
+echo -e "$red""unable to download a critical package from github ."
+echo ""
+echo -e "$red""Make sure you are connected to internet before running setup."	
+echo ""
+exit 1
+fi
+fi
+for i in {1..28}
+do
+rdpkg=$(sed -n ${i}p < "$pkgi")
+cpkg=$(apt-cache search "$rdpkg" | grep "$rdpkg " | awk '{print$1}')
+if [[ -z "$cpkg" ]]
+then
+if [[ ! -f "$aptlog" ]]
+then
+echo "Fatrat package location diagnostic" > "$aptlog"
+echo "-----------------------------------" >> "$aptlog"
+echo "$rdpkg - Does not exist in user repository" >> "$aptlog"
+else
+echo "$rdpkg - Does not exist in user repository" >> "$aptlog"
+fi
+else
+if [[ ! -f "$aptlog" ]]
+then
+echo "Fatrat package location diagnostic" > "$aptlog"
+echo "-----------------------------------" >> "$aptlog"
+echo "$rdpkg - Exist in user repository" >> "$aptlog"
+else
+echo "$rdpkg - Exist in user repository" >> "$aptlog"
+fi
+fi
+done
+echo "" >> "$aptlog"
+echo "-----------------------------------" >> "$aptlog"
+echo "User path environment" >> "$aptlog"
+echo "-----------------------------------" >> "$aptlog"
+echo "$PATH"  >> "$aptlog"
+echo "-----------------------------------" >> "$aptlog"
+echo "User current repositories"  >> "$aptlog"
+echo "-----------------------------------" >> "$aptlog"
+if [[ -f "/etc/apt/sources.list" ]]
+then
+cat "/etc/apt/sources.list" >> "$aptlog"
+else
+echo "sources.list file was not found in user OS" >> "$aptlog"
+fi
+echo "-----------------------------------" >> "$aptlog"
+echo "User Linux Distribution"
+echo "-----------------------------------" >> "$aptlog"
+uname -a >> "$aptlog"
+echo "-----------------------------------" >> "$aptlog"
+echo "         Access User Level         " >> "$aptlog"
+echo "-----------------------------------" >> "$aptlog"
+if [ "$(whoami)" == "root" ] ; then
+echo "User is root level"
+else
+which sudo > /dev/null 2>&1
+if [ "$?" -eq "0" ]; then 
+sudo -l >> "$aptlog"
+else
+echo "Sudo not installed , unable to determine user rights" >> "$aptlog"
+fi
+fi
+echo "-----------------------------------" >> "$aptlog"
+echo "Done"
+echo ""
+echo -e "$yellow""A report was created in :"
+echo -e "$green""$aptlog"
+echo ""
+echo "If you find any issues installing fatrat then"
+echo "Upload this report to your issue in github"
+echo -e "$yellow"""
+read -rsp $'Press [ENTER] key to continue setup \n' -n 1 key
+
+}
