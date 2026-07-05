@@ -13,6 +13,20 @@ source "$(dirname "${BASH_SOURCE[0]}")/modules/sys_reqs.sh"
 # --------------------------------------------------------
 
 
+#!/bin/bash
+echo "Setting up Phantom Command Center..."
+
+# Ensure entrypoint.sh is executable
+chmod +x entrypoint.sh
+
+# Check if necessary dependencies are installed
+if ! command -v git &> /dev/null; then
+    echo "Git not found, please install it."
+    exit
+fi
+
+echo "Setup complete. Run ./entrypoint.sh to start."
+
 #Fail safe for original user sources.list in case setup was interrupted in middle last time
 file="/etc/apt/sources.list.fatrat"
 if [ -f "$file" ]
