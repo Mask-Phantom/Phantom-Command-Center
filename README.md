@@ -1,28 +1,18 @@
 # Phantom Command Center
 
-A modular, bash-based security automation framework designed to streamline reconnaissance, vulnerability scanning, exploitation, and forensics missions.
+A centralized command and control framework designed for automated system administration and security orchestration in Linux environments.
 
-### 🚀 Features
-* **Mission-Oriented Workflow:** Categorized plugins for Recon, Web Vuln, Exploitation, and Analysis.
-* **Modular Architecture:** Easily extendable with a simple plugin structure.
-* **Automated Logging:** Professional `tee`-based logging to keep an audit trail in the `logs/` directory.
+## Features
+- **Streamlined Workflow:** Simplifies complex security tasks into modular commands.
+- **Automated Tasks:** Designed for efficiency in virtualized Linux environments.
+- **Modular Design:** Easy to extend and adapt for various administrative needs.
 
-### 🛠 Dependencies
-* **Recon:** `nmap`, `subfinder`, `amass`, `masscan`
-* **Web:** `ffuf`, `gobuster`, `nuclei`, `sqlmap`
-* **Exploitation:** `metasploit-framework`, `impacket`
+## Getting Started
+### Prerequisites
+- Linux Environment (e.g., Ubuntu/Kali)
+- Git installed on your system
 
-### ⚙️ Installation
-1. **Clone the repository:**
-   `git clone https://github.com/Phantom-mask/TheFatRat.git`
-2. **Make scripts executable:**
-   `chmod -R +x .`
-3. **Launch:**
-   `./entrypoint.sh`
-
-### 🛡️ Authorized Use Policy
-This toolkit is intended for authorized security testing and educational settings only. The user assumes full responsibility for all actions performed.
-
-It is for educational purposes only, and I take no responsibility for any other purpose this might be used for. 
-
-Stay Frosty!
+### Installation
+1. Clone the repository:
+   ```bash
+   git clone git@github.com:Mask-Phantom/Phantom-Command-Center.git
